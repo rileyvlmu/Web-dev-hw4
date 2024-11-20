@@ -1,13 +1,20 @@
 .App {
   text-align: center;
+  justify-content: center;
   font-size: 1.2em;
   color: #213547;
   background-color: #f9f9f9;
-  min-width: 320px;
-  min-height: 100vh;
+}
+
+.SearchService {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  display: flex;
+  justify-content: center;
 }
