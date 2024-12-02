@@ -2,21 +2,24 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import SearchService from './SearchService.jsx';
 import Results from './Results.jsx';
+import { fetchMealsByIngredient } from './API.jsx';
 
 export default function App() {
-  const [nutrient, setNutrient] = useState("");
+  const [ingredient, setIngredient] = useState("");
   const [meals, setMeals] = useState([]);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
 
   useEffect(() => {
-    if (nutrient) {
-      const query = encodeURIComponent(nutrient.toLowerCase());
-      const url = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${query}`;
-      fetch(url)
-        .then((res) => res.json())
-        .then((data) => setMeals(data.meals || []));
+    if (ingredient) {
+      console.log(`Searching for meals with ingredient: ${ingredient}`);
+      fetchMealsByIngredient(ingredient).then((meals) => {
+        console.log('Fetched meals:', meals);
+        setMeals(meals);
+      }).catch((error) => {
+        console.error('Error fetching meals:', error);
+      });
     }
-  }, [nutrient]);
+  }, [ingredient]);
 
   return (
     <div className="App">
@@ -24,7 +27,7 @@ export default function App() {
         <>
           <h1>Meal Finder</h1>
           <div className="SearchService">
-            <SearchService setter={setNutrient} />
+            <SearchService setter={setIngredient} />
           </div>
         </>
       )}

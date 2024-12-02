@@ -1,11 +1,10 @@
 import React from 'react';
+import { fetchMealDetails } from './API.jsx';
+import './Results.css';
 
 export default function Results({ meals, setSelectedRecipe, selectedRecipe }) {
     const handleRecipeClick = (meal) => {
-        const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${meal.idMeal}`;
-        fetch(url)
-            .then((res) => res.json())
-            .then((data) => setSelectedRecipe(data.meals[0]));
+        fetchMealDetails(meal.idMeal).then((data) => setSelectedRecipe(data));
     };
 
     if (!meals.length) {
@@ -13,26 +12,40 @@ export default function Results({ meals, setSelectedRecipe, selectedRecipe }) {
     }
 
     return (
-        <div>
+        <div className="results-container">
             {selectedRecipe ? (
-                <div>
+                <div className="recipe-details">
                     <h2>{selectedRecipe.strMeal}</h2>
                     <img src={selectedRecipe.strMealThumb} alt={selectedRecipe.strMeal} />
                     <p>{selectedRecipe.strInstructions}</p>
+                    <h3>Macros</h3>
+                    <p>Protein: {selectedRecipe.strProtein}g</p>
+                    <p>Fat: {selectedRecipe.strFat}g</p>
+                    <p>Carbohydrates: {selectedRecipe.strCarbs}g</p>
                     <button onClick={() => setSelectedRecipe(null)}>Close Recipe</button>
                 </div>
             ) : (
-                meals.map((meal) => (
-                    <div key={meal.idMeal}>
-                        <h2>{meal.strMeal}</h2>
-                        <img
-                            src={meal.strMealThumb}
-                            alt={meal.strMeal}
-                            onClick={() => handleRecipeClick(meal)}
-                            style={{ cursor: 'pointer' }}
-                        />
-                    </div>
-                ))
+                <div className="cards-container">
+                    {meals.map((meal) => (
+                        <div key={meal.idMeal} className="card" onClick={() => handleRecipeClick(meal)}>
+                            <div className="content">
+                                <div className="front">
+                                    <img src={meal.strMealThumb} alt={meal.strMeal} className="card-image" />
+                                    <div className="front-content">
+                                        <h2 className="meal-title">{meal.strMeal}</h2>
+                                    </div>
+                                </div>
+                                <div className="back">
+                                    <div className="back-content">
+                                        <h2>{meal.strMeal}</h2>
+                                        <p>Click to see the recipe</p>
+                                    </div>
+                                    <img src={meal.strMealThumb} alt={meal.strMeal} className="blurred-image" />
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             )}
         </div>
     );

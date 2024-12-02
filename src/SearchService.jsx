@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React from 'react';
 
 export default function SearchService({ setter }) {
+    const handleChange = (e) => {
+        setter(e.target.value);
+    };
+
     return (
         <input
             type="text"
-            onChange={(e) => setter(e.target.value)}
-            placeholder="Search for a nutrient..."
+            placeholder="Enter a nutrient"
+            onChange={handleChange}
         />
     );
 }
