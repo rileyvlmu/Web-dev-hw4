@@ -114,12 +114,20 @@
     align-items: center;
     color: white;
     border-radius: 0 0 5px 5px;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    /* Black outline */
 }
 
 .meal-title {
     margin: 0;
     font-size: 1.2em;
     text-align: center;
+}
+
+.back-content h2,
+.back-content p {
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    /* Black outline */
 }
 
 .card:hover .content {
