@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import SearchService from './SearchService.jsx';
+import SearchService from './Search.jsx';
 import Results from './Results.jsx';
 import { fetchMealsByIngredient } from './API.jsx';
 
