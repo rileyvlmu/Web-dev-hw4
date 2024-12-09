@@ -49,7 +49,7 @@ export default function App() {
           <header>
             <div className="header-left">
               {user && (
-                <button onClick={handleShowFavorites}>Show Favorites</button>
+                <button onClick={handleShowFavorites}>Toggle Favorites</button>
               )}
             </div>
             <h1>Meal Finder</h1>

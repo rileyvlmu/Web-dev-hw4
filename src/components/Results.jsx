@@ -28,13 +28,15 @@ export default function Results({ meals, setSelectedRecipe, selectedRecipe, user
   }
 
   return (
-    <ResultsContainer
-      meals={meals}
-      selectedRecipe={selectedRecipe}
-      onRecipeSelect={handleRecipeClick}
-      onCloseRecipe={handleCloseRecipe}
-      loading={loading}
-      user={user}
-    />
+    <div className="results-container">
+      <ResultsContainer
+        meals={meals}
+        selectedRecipe={selectedRecipe}
+        onRecipeSelect={handleRecipeClick}
+        onCloseRecipe={handleCloseRecipe}
+        loading={loading}
+        user={user}
+      />
+    </div>
   );
 }
