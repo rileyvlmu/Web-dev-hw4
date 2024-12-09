@@ -5,24 +5,22 @@ import MealCard from './MealCard';
 import DOMPurify from 'dompurify';
 import './Results.css'; // Separate styles can be managed here
 
-function ResultsContainer({ meals, selectedRecipe, onRecipeSelect, onCloseRecipe }) {
+const cleanInstructions = (instructions) => {
+  // Sanitize the instructions and split into an array of instructions
+  const sanitizedInstructions = DOMPurify.sanitize(instructions);
+  return sanitizedInstructions.split(/<\/li>\s*<li>/).map(instruction => instruction.replace(/<\/?[^>]+(>|$)/g, "").trim()).filter(instruction => instruction !== '');
+};
+
+export default function ResultsContainer({ meals, selectedRecipe, onRecipeSelect, onCloseRecipe, loading }) {
   if (!meals.length) {
     return <p>No results found</p>;
   }
 
-  const cleanInstructions = (instructions) => {
-    const sanitizedInstructions = DOMPurify.sanitize(instructions);
-    return sanitizedInstructions
-      .split(/<\/li>\s*<li>/)
-      .map((instruction) =>
-        instruction.replace(/<\/?[^>]+(>|$)/g, "").trim()
-      )
-      .filter((instruction) => instruction !== '');
-  };
-
   return (
-    <div className="results-container">
-      {selectedRecipe ? (
+    <div>
+      {loading ? (
+        <p>Loading...</p>
+      ) : selectedRecipe ? (
         <div className="recipe-details">
           <h2>{selectedRecipe.strMeal}</h2>
           <img src={selectedRecipe.strMealThumb} alt={selectedRecipe.strMeal} />
@@ -63,6 +61,5 @@ ResultsContainer.propTypes = {
   selectedRecipe: PropTypes.object,
   onRecipeSelect: PropTypes.func.isRequired,
   onCloseRecipe: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
-
-export default ResultsContainer;
