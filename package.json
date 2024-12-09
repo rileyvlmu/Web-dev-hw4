@@ -1,5 +1,6 @@
 {
-  "name": "web-dev-hw4",
+  "name": "meal-finder",
+  "author": "Riley Vegting, Garnik Gevorkyan",
   "private": true,
   "version": "0.0.0",
   "type": "module",

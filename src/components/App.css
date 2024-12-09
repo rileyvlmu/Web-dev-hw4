@@ -1,43 +1,47 @@
 .App {
   text-align: center;
-  justify-content: center;
-  font-size: 1.2em;
-  color: #213547;
-  background-color: #f9f9f9;
 }
 
-.SearchService {
+header {
   display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  /* Adjust the value as needed */
+  justify-content: center; /* Center the header content horizontally */
+  align-items: center;
+  padding: 10px;
+  background-color: #f8f9fa;
+  position: relative; /* To position the auth-button absolutely */
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-  display: flex;
-  justify-content: center;
+.auth-button {
+  position: absolute;
+  right: 10px; /* Position the auth button to the right */
 }
 
-/* From Uiverse.io by satyamchaudharydev */
 button {
-  --bg: #e74c3c;
-  --text-color: #fff;
-  position: relative;
-  width: 150px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
   border: none;
-  background: var(--bg);
-  color: var(--text-color);
-  padding: 1em;
   font-weight: bold;
   text-transform: uppercase;
   transition: 0.2s;
   border-radius: 5px;
-  opacity: 0.8;
   letter-spacing: 1px;
+}
+
+/* Specific styles for the search button */
+.search-button {
+  background: #3498db;
+  color: #fff;
+  box-shadow: #2980b9 0px 7px 2px, #000 0px 8px 5px;
+  opacity: 0.8;
+}
+
+/* Specific styles for the close recipe button */
+.close-recipe-button {
+  background: #e74c3c;
+  color: #fff;
   box-shadow: #c0392b 0px 7px 2px, #000 0px 8px 5px;
+  opacity: 0.8;
 }
 
 button:hover {
@@ -47,4 +51,27 @@ button:hover {
 button:active {
   top: 4px;
   box-shadow: #c0392b 0px 3px 2px, #000 0px 3px 5px;
+}
+
+.app-button {
+  --bg: #e74c3c;
+  --text-color: #fff;
+  position: relative;
+  width: 150px;
+  border: none;
+  background: var(--bg);
+  color: var(--text-color);
+  padding: 1em;
+  font-weight: bold;
+}
+
+.SearchService {
+  margin-top: 20px;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+  display: flex;
+  justify-content: center;
 }

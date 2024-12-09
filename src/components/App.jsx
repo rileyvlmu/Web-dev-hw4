@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
+import { login, logout, useAuthentication } from "../services/authService";
 import './App.css';
 import SearchService from './Search.jsx';
 import Results from './Results.jsx';
 import { fetchMealsByIngredient } from './API.jsx';
+import LoginButton from './LoginButton.jsx'; // Ensure correct import
 
 export default function App() {
   const [ingredient, setIngredient] = useState("");
   const [meals, setMeals] = useState([]);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const user = useAuthentication();
 
   useEffect(() => {
     if (ingredient) {
@@ -25,9 +28,19 @@ export default function App() {
     <div className="App">
       {!selectedRecipe && (
         <>
-          <h1>Meal Finder</h1>
+          <header>
+            <h1>Meal Finder</h1>
+            <div className="auth-button">
+              {!user ? (
+                <button onClick={login}>Login</button>
+              ) : (
+                <button onClick={logout}>Logout</button>
+              )}
+            </div>
+          </header>
           <div className="SearchService">
             <SearchService setter={setIngredient} />
+            <button className="search-button" onClick={() => setIngredient("chicken")}>Search</button>
           </div>
         </>
       )}
