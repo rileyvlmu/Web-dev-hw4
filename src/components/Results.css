@@ -3,6 +3,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 
 .cards-container {
@@ -142,4 +143,22 @@
     100% {
         transform: rotateZ(360deg);
     }
+}
+
+.recipe-details {
+    text-align: center;
+}
+
+.instructions-container {
+    display: flex;
+    justify-content: center;
+}
+
+.instructions-container ol {
+    text-align: left;
+    padding-left: 20px; /* Adjust padding to align numbers */
+}
+
+.instructions-container ol li {
+    margin-bottom: 10px;
 }
