@@ -1,6 +1,7 @@
 import React from 'react';
 import { fetchMealDetails } from './API.jsx';
 import './Results.css'; // Import the CSS file for styling
+import DOMPurify from 'dompurify';
 
 export default function Results({ meals, setSelectedRecipe, selectedRecipe }) {
   const handleRecipeClick = (meal) => {
@@ -16,18 +17,27 @@ export default function Results({ meals, setSelectedRecipe, selectedRecipe }) {
     return <p>No results found</p>;
   }
 
+  const cleanInstructions = (instructions) => {
+    // Sanitize the instructions and split into an array of instructions
+    const sanitizedInstructions = DOMPurify.sanitize(instructions);
+    return sanitizedInstructions.split(/<\/li>\s*<li>/).map(instruction => instruction.replace(/<\/?[^>]+(>|$)/g, "").trim()).filter(instruction => instruction !== '');
+  };
+
   return (
     <div className="results-container">
       {selectedRecipe ? (
         <div className="recipe-details">
           <h2>{selectedRecipe.strMeal}</h2>
           <img src={selectedRecipe.strMealThumb} alt={selectedRecipe.strMeal} />
-          <p>{selectedRecipe.strInstructions}</p>
+          <h3>Instructions</h3>
+          <ol>
+            {cleanInstructions(selectedRecipe.strInstructions).map((instruction, index) => (
+              <li key={index}>{instruction}</li>
+            ))}
+          </ol>
           <h3>Ingredients</h3>
-          <p>{selectedRecipe.strIngredients}</p>
+          <p>{DOMPurify.sanitize(selectedRecipe.strIngredients)}</p>
           <h3>Times</h3>
-          <p>Preparation Time: {selectedRecipe.strPrepTime} mins</p>
-          <p>Cooking Time: {selectedRecipe.strCookTime} mins</p>
           <p>Ready In: {selectedRecipe.strReadyTime} mins</p>
           <h3>Macros</h3>
           <p>Protein: {selectedRecipe.strProtein}</p>
