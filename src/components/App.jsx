@@ -5,6 +5,7 @@ import SearchService from './Search.jsx';
 import Results from './Results.jsx';
 import { fetchMealsByIngredient } from './API.jsx';
 import LoginButton from './LoginButton.jsx'; // Ensure correct import
+import Favorites from './Favorites.jsx'; // Import the Favorites component
 
 export default function App() {
   const [ingredient, setIngredient] = useState("");
@@ -12,6 +13,7 @@ export default function App() {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [showFavorites, setShowFavorites] = useState(false);
   const user = useAuthentication();
 
   useEffect(() => {
@@ -32,11 +34,24 @@ export default function App() {
     }
   }, [ingredient]);
 
+  const handleShowFavorites = () => {
+    setShowFavorites(!showFavorites);
+  };
+
+  const handleCloseRecipe = () => {
+    setSelectedRecipe(null);
+  };
+
   return (
     <div className="App">
       {!selectedRecipe && (
         <>
           <header>
+            <div className="header-left">
+              {user && (
+                <button onClick={handleShowFavorites}>Show Favorites</button>
+              )}
+            </div>
             <h1>Meal Finder</h1>
             <div className="auth-button">
               {!user ? (
@@ -54,9 +69,21 @@ export default function App() {
           </div>
         </>
       )}
-      <Results meals={meals} setSelectedRecipe={setSelectedRecipe} selectedRecipe={selectedRecipe} />
+      {showFavorites ? (
+        <Favorites
+          user={user}
+          setSelectedRecipe={setSelectedRecipe}
+          selectedRecipe={selectedRecipe}
+          onCloseRecipe={handleCloseRecipe}
+        />
+      ) : (
+        <Results
+          meals={meals}
+          setSelectedRecipe={setSelectedRecipe}
+          selectedRecipe={selectedRecipe}
+          user={user}
+        />
+      )}
     </div>
   );
 }
-
-

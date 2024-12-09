@@ -5,7 +5,7 @@ import './Results.css'; // Import the CSS file for styling
 import DOMPurify from 'dompurify';
 import ResultsContainer from './ResultsContainer';
 
-export default function Results({ meals, setSelectedRecipe, selectedRecipe }) {
+export default function Results({ meals, setSelectedRecipe, selectedRecipe, user }) {
   const [loading, setLoading] = useState(false);
 
   const handleRecipeClick = useCallback((meal) => {
@@ -34,6 +34,7 @@ export default function Results({ meals, setSelectedRecipe, selectedRecipe }) {
       onRecipeSelect={handleRecipeClick}
       onCloseRecipe={handleCloseRecipe}
       loading={loading}
+      user={user}
     />
   );
 }

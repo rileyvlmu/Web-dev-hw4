@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MealCard from './MealCard';
 import DOMPurify from 'dompurify';
+import { saveToFavorites } from '../services/favoritesService';
 import './Results.css'; // Separate styles can be managed here
 
 const cleanInstructions = (instructions) => {
@@ -11,10 +12,18 @@ const cleanInstructions = (instructions) => {
   return sanitizedInstructions.split(/<\/li>\s*<li>/).map(instruction => instruction.replace(/<\/?[^>]+(>|$)/g, "").trim()).filter(instruction => instruction !== '');
 };
 
-export default function ResultsContainer({ meals, selectedRecipe, onRecipeSelect, onCloseRecipe, loading }) {
+export default function ResultsContainer({ meals, selectedRecipe, onRecipeSelect, onCloseRecipe, loading, user }) {
   if (!meals.length) {
     return <p>No results found</p>;
   }
+
+  const handleAddToFavorites = () => {
+    if (user && selectedRecipe) {
+      saveToFavorites(user.uid, selectedRecipe.idMeal);
+    } else {
+      console.log('User not logged in or no recipe selected');
+    }
+  };
 
   return (
     <div>
@@ -44,6 +53,7 @@ export default function ResultsContainer({ meals, selectedRecipe, onRecipeSelect
           <p>Carbohydrates: {selectedRecipe.strCarbs}</p>
           <p>Calories: {selectedRecipe.strCalories}</p>
           <button onClick={onCloseRecipe}>Close Recipe</button>
+          <button onClick={handleAddToFavorites}>Add to Favorites</button>
         </div>
       ) : (
         <div className="cards-container">
@@ -62,4 +72,5 @@ ResultsContainer.propTypes = {
   onRecipeSelect: PropTypes.func.isRequired,
   onCloseRecipe: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
+  user: PropTypes.object
 };
