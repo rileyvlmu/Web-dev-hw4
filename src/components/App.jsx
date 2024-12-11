@@ -63,7 +63,7 @@ export default function App() {
           </header>
           <div className="SearchService">
             <SearchService setter={setIngredient} />
-            <button className="search-button" onClick={() => setIngredient("chicken")}>Search</button>
+            <button className="search-button" onClick={() => setIngredient("none")}>Search</button>
             {loading && <p>Loading meals...</p>}
             {error && <p className="error">{error}</p>}
           </div>

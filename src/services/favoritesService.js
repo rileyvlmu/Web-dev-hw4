@@ -1,6 +1,6 @@
 // favoritesService.js
 import { db } from '../firebaseConfig';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, deleteDoc, query, where, getDocs } from 'firebase/firestore';
 
 export async function saveToFavorites(userId, recipeId) {
   try {
@@ -14,3 +14,15 @@ export async function saveToFavorites(userId, recipeId) {
   }
 }
 
+export async function removeFromFavorites(userId, recipeId) {
+  try {
+    const q = query(collection(db, 'favorites'), where('userId', '==', userId), where('recipeId', '==', recipeId));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach(async (doc) => {
+      await deleteDoc(doc.ref);
+    });
+    console.log(`Recipe ID ${recipeId} removed from favorites for user ${userId}`);
+  } catch (e) {
+    console.error("Error removing document: ", e);
+  }
+}

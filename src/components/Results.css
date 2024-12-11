@@ -147,18 +147,22 @@
 
 .recipe-details {
     text-align: center;
+    margin-left: 10vw;
+    margin-right: 10vw;
 }
 
 .instructions-container {
     display: flex;
     justify-content: center;
+    
 }
 
 .instructions-container ol {
     text-align: left;
-    padding-left: 20px; /* Adjust padding to align numbers */
+    padding-left: 20px;
 }
 
 .instructions-container ol li {
     margin-bottom: 10px;
+    
 }
