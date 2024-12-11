@@ -1,12 +1,21 @@
 // Results.jsx
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { fetchMealDetails } from './API.jsx';
 import './Results.css'; // Import the CSS file for styling
-import DOMPurify from 'dompurify';
 import ResultsContainer from './ResultsContainer';
+
+const RESULTS_PER_PAGE = 10;
 
 export default function Results({ meals, setSelectedRecipe, selectedRecipe, user }) {
   const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [paginatedMeals, setPaginatedMeals] = useState([]);
+
+  useEffect(() => {
+    const startIndex = (currentPage - 1) * RESULTS_PER_PAGE;
+    const endIndex = startIndex + RESULTS_PER_PAGE;
+    setPaginatedMeals(meals.slice(startIndex, endIndex));
+  }, [meals, currentPage]);
 
   const handleRecipeClick = useCallback((meal) => {
     setLoading(true);
@@ -21,6 +30,14 @@ export default function Results({ meals, setSelectedRecipe, selectedRecipe, user
     setSelectedRecipe(null);
   }, [setSelectedRecipe]);
 
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
+  const handlePreviousPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
   console.log('Meals in Results component:', meals);
 
   if (!meals.length) {
@@ -30,13 +47,23 @@ export default function Results({ meals, setSelectedRecipe, selectedRecipe, user
   return (
     <div className="results-container">
       <ResultsContainer
-        meals={meals}
+        meals={paginatedMeals}
         selectedRecipe={selectedRecipe}
         onRecipeSelect={handleRecipeClick}
         onCloseRecipe={handleCloseRecipe}
         loading={loading}
         user={user}
       />
+      {!selectedRecipe && (
+        <div className="pagination-buttons">
+          {currentPage > 1 && (
+            <button onClick={handlePreviousPage}>Previous Page</button>
+          )}
+          {meals.length > currentPage * RESULTS_PER_PAGE && (
+            <button onClick={handleNextPage}>Next Page</button>
+          )}
+        </div>
+      )}
     </div>
   );
 }

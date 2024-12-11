@@ -38,6 +38,11 @@ export default function App() {
     setShowFavorites(!showFavorites);
   };
 
+  const handleSearch = () => {
+    const searchInput = document.querySelector('.SearchService input').value;
+    setIngredient(searchInput);
+  };
+
   const handleCloseRecipe = () => {
     setSelectedRecipe(null);
   };
@@ -63,7 +68,7 @@ export default function App() {
           </header>
           <div className="SearchService">
             <SearchService setter={setIngredient} />
-            <button className="search-button" onClick={() => setIngredient("none")}>Search</button>
+            <button className="search-button" onClick={handleSearch}>Search</button>
             {loading && <p>Loading meals...</p>}
             {error && <p className="error">{error}</p>}
           </div>
